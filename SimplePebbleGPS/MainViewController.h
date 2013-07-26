@@ -8,8 +8,24 @@
 
 #import "FlipsideViewController.h"
 
-@interface MainViewController : UIViewController <FlipsideViewControllerDelegate>
+#import <CoreLocation/CoreLocation.h>
+
+@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, CLLocationManagerDelegate>
+{
+    CLLocationManager *locationManager;
+    CLLocation *lastLocation;
+    double elapsedTime;
+    double distanceTraveled;
+    
+    __weak IBOutlet UIButton *startStopButton;
+    __weak IBOutlet UILabel *timeLabel;
+    __weak IBOutlet UILabel *distanceLabel;
+    __weak IBOutlet UILabel *paceLabel;
+    __weak IBOutlet UIButton *pauseButton;
+}
 
 - (IBAction)showInfo:(id)sender;
+- (IBAction)startStopTouched:(id)sender;
+- (IBAction)pauseTouched:(id)sender;
 
 @end

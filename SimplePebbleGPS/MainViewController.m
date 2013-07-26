@@ -41,4 +41,123 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+- (IBAction)startStopTouched:(id)sender {
+    if([startStopButton.titleLabel.text isEqualToString: NSLocalizedString(@"Start", nil)]) {
+        [self resetStats];
+        [self startGPS];
+        [startStopButton setTitle:NSLocalizedString(@"Stop", nil) forState:UIControlStateNormal];
+        [pauseButton setHidden: NO];
+
+    } else if([startStopButton.titleLabel.text isEqualToString: NSLocalizedString(@"Stop", nil)]) {
+        [self stopGPS];
+        [startStopButton setTitle:NSLocalizedString(@"Start", nil) forState:UIControlStateNormal];
+        [pauseButton setHidden: YES];
+    }
+}
+
+- (IBAction)pauseTouched:(id)sender {
+    if(lastLocation == nil) {
+        [self startGPS];
+    } else {
+        [self stopGPS];
+        lastLocation = nil;
+    }
+}
+
+#pragma mark - Observed actions
+
+- (void)resetStats {
+    [self setElapsedTime:0];
+    [self setDistanceTraveled:0];
+    lastLocation = nil;
+}
+
+- (void)addElapsedTime: (double)elapsed {
+    elapsedTime += elapsed;
+    [self updateTimeLabel];
+}
+
+- (void)setElapsedTime: (double)elapsed {
+    elapsedTime = elapsed;
+    [self updateTimeLabel];
+}
+
+- (void)addDistanceTraveled: (float)distance {
+    distanceTraveled += distance;
+    [self updateDistanceTraveled];
+}
+
+- (void)setDistanceTraveled: (float)distance {
+    distanceTraveled = distance;
+    [self updateDistanceTraveled];
+}
+
+- (void)updateLabels {
+    [self updateTimeLabel];
+    [self updateDistanceTraveled];
+    [self updatePace];
+}
+
+- (void)updateTimeLabel {
+    unsigned int temp = elapsedTime;
+    
+    timeLabel.text = [NSString stringWithFormat:@"%.2u:%.2u:%.2u", temp / (60 * 60), temp / 60 % 60, temp % 60];
+}
+
+- (void)updateDistanceTraveled {
+    distanceLabel.text = [NSString stringWithFormat:@"%.2f", [self metersToMiles:distanceTraveled]];
+}
+
+- (void)updatePace {
+    double tempDistance = [self metersToMiles:distanceTraveled];
+    double pace = tempDistance / (elapsedTime / (60 * 60));
+    
+    paceLabel.text = [NSString stringWithFormat:@"%.2f", pace];
+}
+
+#pragma mark - GPS Support
+
+- (double)metersToMiles: (double)meters
+{
+    return meters * 0.00062137;
+}
+
+- (void)startGPS
+{
+    if (nil == locationManager)
+        locationManager = [[CLLocationManager alloc] init];
+    
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locationManager.activityType = CLActivityTypeFitness;
+    [locationManager startUpdatingLocation];
+}
+
+- (void)stopGPS
+{
+    [locationManager stopUpdatingLocation];
+}
+
+// Delegate method from the CLLocationManagerDelegate protocol.
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    // If it's a relatively recent event, turn off updates to save power
+    CLLocation* location = [locations lastObject];
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    
+    if (abs(howRecent) < 15.0) {        
+        if(lastLocation != nil) {
+            // If the event is recent, do something with it.
+            [self addDistanceTraveled:[location distanceFromLocation:lastLocation]];
+            [self addElapsedTime:[eventDate timeIntervalSinceDate:lastLocation.timestamp]];
+            [self updateLabels];
+        }
+        lastLocation = location;
+    }
+    
+
+}
+
 @end

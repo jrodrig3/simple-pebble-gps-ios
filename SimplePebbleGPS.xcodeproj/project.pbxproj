@@ -25,6 +25,7 @@
 		1233532117A1F761009B9B90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123352F617A1F761009B9B90 /* Foundation.framework */; };
 		1233532917A1F761009B9B90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1233532717A1F761009B9B90 /* InfoPlist.strings */; };
 		1233532C17A1F761009B9B90 /* SimplePebbleGPSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1233532B17A1F761009B9B90 /* SimplePebbleGPSTests.m */; };
+		1233533617A2027F009B9B90 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1233533517A2027F009B9B90 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		1233532817A1F761009B9B90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1233532A17A1F761009B9B90 /* SimplePebbleGPSTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimplePebbleGPSTests.h; sourceTree = "<group>"; };
 		1233532B17A1F761009B9B90 /* SimplePebbleGPSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimplePebbleGPSTests.m; sourceTree = "<group>"; };
+		1233533517A2027F009B9B90 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1233533617A2027F009B9B90 /* CoreLocation.framework in Frameworks */,
 				123352F517A1F761009B9B90 /* UIKit.framework in Frameworks */,
 				123352F717A1F761009B9B90 /* Foundation.framework in Frameworks */,
 				123352F917A1F761009B9B90 /* CoreGraphics.framework in Frameworks */,
@@ -111,6 +114,7 @@
 		123352F317A1F761009B9B90 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1233533517A2027F009B9B90 /* CoreLocation.framework */,
 				123352F417A1F761009B9B90 /* UIKit.framework */,
 				123352F617A1F761009B9B90 /* Foundation.framework */,
 				123352F817A1F761009B9B90 /* CoreGraphics.framework */,
@@ -471,6 +475,7 @@
 				1233533117A1F761009B9B90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1233533217A1F761009B9B90 /* Build configuration list for PBXNativeTarget "SimplePebbleGPSTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +484,7 @@
 				1233533417A1F761009B9B90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
