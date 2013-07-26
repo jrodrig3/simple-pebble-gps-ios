@@ -41,6 +41,8 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+#pragma mark - Main View
+
 - (IBAction)startStopTouched:(id)sender {
     if([startStopButton.titleLabel.text isEqualToString: NSLocalizedString(@"Start", nil)]) {
         [self resetStats];
@@ -138,26 +140,23 @@
     [locationManager stopUpdatingLocation];
 }
 
-// Delegate method from the CLLocationManagerDelegate protocol.
+#pragma mark - Location Delegate
+
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray *)locations
 {
-    // If it's a relatively recent event, turn off updates to save power
-    CLLocation* location = [locations lastObject];
-    NSDate* eventDate = location.timestamp;
+    CLLocation *location = [locations lastObject];
+    NSDate *eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     
     if (abs(howRecent) < 15.0) {        
         if(lastLocation != nil) {
-            // If the event is recent, do something with it.
             [self addDistanceTraveled:[location distanceFromLocation:lastLocation]];
             [self addElapsedTime:[eventDate timeIntervalSinceDate:lastLocation.timestamp]];
-            [self updateLabels];
+            [self updatePace];
         }
         lastLocation = location;
     }
-    
-
 }
 
 @end
